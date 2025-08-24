@@ -2,9 +2,10 @@ pipeline {
   agent any
 
   environment {
-    IMAGE_NAME = "rahul187/image_1"
-    TAG = "docker-${BUILD_NUMBER}"
-  }
+    REGISTRY_CRED = 'dockerhub-creds'      // <-- your Jenkins creds ID
+    IMAGE_NAME    = 'rahul187/image_1' // <-- change to your repo
+ }
+
 
    stages {
     stage('Checkout') {
@@ -25,6 +26,13 @@ pipeline {
         }
       }
     }
+pipeline {
+  agent any
+
+  environment {
+    IMAGE_NAME = "rahul187/image_1"
+    TAG = "docker-${BUILD_NUMBER}"
+  }
 
     stage('Build image') {
       steps {
