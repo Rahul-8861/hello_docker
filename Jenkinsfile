@@ -2,14 +2,14 @@ pipeline {
   agent any
 
   environment {
-    REGISTRY_CRED = 'dockerhub-creds'      // <-- your Jenkins creds ID
-    IMAGE_NAME    = 'rahul187/image_1' // <-- change to your repo  
- }
+    IMAGE_NAME = "rahul187/image_1"
+    TAG = "docker-${BUILD_NUMBER}"
+  }
 
- stages {
+   stages {
     stage('Checkout') {
-      steps { 
-        checkout scm 
+      steps {
+        checkout scm
       }
     }
 
@@ -28,10 +28,9 @@ pipeline {
 
     stage('Build image') {
       steps {
-       //before building docker image jenkins user should be added to docker group
-
+        // Jenkins user should be in docker group before this step
         sh """
-          docker build -t ${IMAGE_NAME}:${TAG} .       
+          docker build -t ${IMAGE_NAME}:${TAG} .
         """
       }
     }
@@ -53,9 +52,22 @@ pipeline {
         }
       }
     }
+
+    stage('Deploy Container') {
+      steps {
+        sh """
+          # Stop and remove existing container if any
+          docker stop myapp || true
+          docker rm myapp || true
+
+          # Run new container on port 8080 (maps to app's port 80 inside container)
+          docker run -d -p 8080:8000 --name myapp ${IMAGE_NAME}:${TAG}
+        """
+      }
+    }
   }
 
-post {
+  post {
     always {
       sh 'docker image prune -f || true'
     }
