@@ -26,13 +26,6 @@ pipeline {
         }
       }
     }
-pipeline {
-  agent any
-
-  environment {
-    IMAGE_NAME = "rahul187/image_1"
-    TAG = "docker-${BUILD_NUMBER}"
-  }
 
     stage('Build image') {
       steps {
@@ -81,4 +74,4 @@ pipeline {
     }
   }
 }
-}
+
