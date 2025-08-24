@@ -44,13 +44,15 @@ pipeline {
           passwordVariable: 'DH_PASS'
         )]) {
            sh '''
-  echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin --config /tmp/.docker
-  docker tag ${IMAGE_NAME}:${TAG} ${IMAGE_NAME}:latest
-  docker push ${IMAGE_NAME}:${TAG}
-  docker push ${IMAGE_NAME}:latest
-  docker logout --config /tmp/.docker
+  mkdir -p /tmp/.docker
+  echo "$DH_PASS" | docker --config /tmp/.docker login -u "$DH_USER" --password-stdin
+  docker --config /tmp/.docker tag ${IMAGE_NAME}:${TAG} ${IMAGE_NAME}:latest
+  docker --config /tmp/.docker push ${IMAGE_NAME}:${TAG}
+  docker --config /tmp/.docker push ${IMAGE_NAME}:latest
+  docker --config /tmp/.docker logout
   rm -rf /tmp/.docker
 '''
+
 
         }
       }
