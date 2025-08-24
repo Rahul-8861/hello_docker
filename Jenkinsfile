@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    REGISTRY_CRED = 'dockerhub-creds'               // <-- your Jenkins creds ID
+    REGISTRY_CRED = 'dockerhub-creds'      // <-- your Jenkins creds ID
     IMAGE_NAME    = 'rahul187/image_1' // <-- change to your repo  
  }
 
@@ -29,7 +29,7 @@ pipeline {
     stage('Build image') {
       steps {
         sh """
-          docker build -t ${IMAGE_NAME}:${TAG} .
+          docker build -t ${IMAGE_NAME}:${TAG} .       //before building docker image jenkins user should be added to docker group
         """
       }
     }
