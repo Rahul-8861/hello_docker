@@ -20,7 +20,7 @@ pipeline {
         script {
           // Compute after checkout so .git exists
           env.GIT_SHORT = sh(script: 'git rev-parse --short HEAD || echo dev', returnStdout: true).trim()
-          env.BRANCH    = env.BRANCH_NAME ?: 'docker_1'
+          env.BRANCH    = env.BRANCH_NAME ?: 'docker'
           env.TAG       = "${env.BRANCH}-${env.GIT_SHORT}-${env.BUILD_NUMBER}"
         }
       }
