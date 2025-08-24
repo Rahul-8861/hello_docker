@@ -43,13 +43,13 @@ pipeline {
           usernameVariable: 'DH_USER',
           passwordVariable: 'DH_PASS'
         )]) {
-          sh """
+          sh '''
             echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
             docker tag ${IMAGE_NAME}:${TAG} ${IMAGE_NAME}:latest
             docker push ${IMAGE_NAME}:${TAG}
             docker push ${IMAGE_NAME}:latest
             docker logout
-          """
+          '''
         }
       }
     }
