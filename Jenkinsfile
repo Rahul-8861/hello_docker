@@ -66,7 +66,7 @@ pipeline {
           docker rm myapp || true
 
           # Run new container on port 8080 (maps to app's port 80 inside container)
-          docker run -d -p 8080:8000 --name myapp ${IMAGE_NAME}:${TAG}
+          docker run -d -p 8081:8000 --name myapp ${IMAGE_NAME}:${TAG}
         """
       }
     }
