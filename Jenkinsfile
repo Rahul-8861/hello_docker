@@ -28,8 +28,10 @@ pipeline {
 
     stage('Build image') {
       steps {
+       //before building docker image jenkins user should be added to docker group
+
         sh """
-          docker build -t ${IMAGE_NAME}:${TAG} .       //before building docker image jenkins user should be added to docker group
+          docker build -t ${IMAGE_NAME}:${TAG} .       
         """
       }
     }
