@@ -29,7 +29,7 @@ pipeline {
 
     stage('Build image') {
       steps {
-        // Jenkins user should be in docker group before this step
+        
         sh """
           docker build -t ${IMAGE_NAME}:${TAG} .
         """
